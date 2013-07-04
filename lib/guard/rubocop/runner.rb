@@ -27,6 +27,7 @@ module Guard
         command = ['rubocop']
         command.concat(%w(--format progress)) # Keep default formatter for console.
         command.concat(['--format', 'json', '--out', json_file_path])
+        command.concat(['--list-cops']) if @options[:cops]
         command.concat(paths)
       end
 

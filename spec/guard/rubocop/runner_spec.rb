@@ -89,6 +89,11 @@ describe Guard::Rubocop::Runner do
       let(:options) { { notification: false } }
       include_examples 'notification', { passed: false, failed: false }
     end
+
+    context 'when :cops option is true' do
+      let(:options) { { cops: true } }
+
+    end
   end
 
   describe '#build_command' do
@@ -106,6 +111,15 @@ describe Guard::Rubocop::Runner do
       command = runner.build_command(paths)
       command[5].should == '--out'
       command[6].should_not be_empty
+    end
+
+    context 'cops option is set' do
+      let(:options) { { cops: true } }
+
+      it 'adds the --list-cops flag' do
+        command = runner.build_command(paths)
+        command[7].should == '--list-cops'
+      end
     end
 
     it 'adds the passed paths' do
